@@ -16,32 +16,32 @@ st.markdown("""
         color: #333333; /* Default text color */
     }
     
-    /* Import Section Style */
-    .import-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        padding: 50px;
+    /* 
+       CSS :has() selector strategy for containers
+    */
+
+    /* Landing Page Box (New Unified Layout) */
+    div[data-testid="stVerticalBlock"]:has(div.landing-box-marker) {
         background-color: white;
+        padding: 50px;
         border-radius: 15px;
         box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-        max-width: 800px;
-        margin: auto;
         text-align: center;
-        /* Force dark text inside this white box */
+        /* Force dark text */
         color: #2c3e50 !important;
     }
     
-    /* Force headers/text inside import container to be dark */
-    .import-container h1, .import-container p, .import-container div {
-        color: #2c3e50 !important;
+    /* Center the file uploader inside the landing box */
+    div[data-testid="stVerticalBlock"]:has(div.landing-box-marker) div[data-testid="stFileUploader"] {
+        margin: 0 auto;
+        max-width: 100%;
     }
     
-    /* 
-       CSS :has() selector strategy to style the parent Streamlit container 
-       wrapping the widgets. 
-    */
+    /* Force specific text colors in the landing box */
+    div[data-testid="stVerticalBlock"]:has(div.landing-box-marker) h1, 
+    div[data-testid="stVerticalBlock"]:has(div.landing-box-marker) p {
+        color: #2c3e50 !important;
+    }
     
     /* White Box Column */
     div[data-testid="stVerticalBlock"]:has(div.white-box-marker) {
@@ -71,7 +71,7 @@ st.markdown("""
     }
     
     /* Markers (Hidden) */
-    .white-box-marker, .mint-box-marker {
+    .white-box-marker, .mint-box-marker, .landing-box-marker {
         display: none;
     }
     
@@ -275,25 +275,30 @@ if st.session_state.df is None:
     # --- LANDING / IMPORT STATE ---
     col1, col2, col3 = st.columns([1,2,1])
     with col2:
-        st.markdown("""
-        <div class="import-container">
-            <h1>Import dataset for pivot tables or insight</h1>
-            <p class="sub-text">Please upload your Course Designation Form (Excel) to begin analysis.</p>
-        </div>
-        """, unsafe_allow_html=True)
-        
-        # Uploader explicitly here
-        uploaded_file = st.file_uploader("Choose a file", type=['xlsx'], label_visibility="collapsed")
-        
-        if uploaded_file is not None:
-            try:
-                with st.spinner("Processing Data..."):
-                    df = load_data(uploaded_file)
-                    st.session_state.df = df
-                    st.session_state.active_page = "Overview: Course Offerings" # Default landing
-                    st.rerun()
-            except Exception as e:
-                st.error(f"Error processing file: {e}")
+        # Unified Landing Card Container
+        with st.container():
+            # Marker for CSS targeting (Landing Card Style)
+            st.markdown('<div class="landing-box-marker"></div>', unsafe_allow_html=True)
+            
+            st.markdown("""
+                <h1>Import dataset for pivot tables or insight</h1>
+                <p class="sub-text">Please upload your Course Designation Form (Excel) to begin analysis.</p>
+            """, unsafe_allow_html=True)
+            
+            st.markdown("<br>", unsafe_allow_html=True) 
+
+            # Uploader NOW INSIDE the container
+            uploaded_file = st.file_uploader("Choose a file", type=['xlsx'], label_visibility="collapsed")
+            
+            if uploaded_file is not None:
+                try:
+                    with st.spinner("Processing Data..."):
+                        df = load_data(uploaded_file)
+                        st.session_state.df = df
+                        st.session_state.active_page = "Overview: Course Offerings" # Default landing
+                        st.rerun()
+                except Exception as e:
+                    st.error(f"Error processing file: {e}")
 
 else:
     # --- DASHBOARD STATE ---
