@@ -1,0 +1,17 @@
+# Python internals
+__pycache__/
+*.py[cod]
+
+# Virtual Environment
+.venv/
+venv/
+ENV/
+
+# Data Files (Keep Private!)
+*.xlsx
+*.csv
+*.txt
+
+# IDE settings
+.vscode/
+.idea/
