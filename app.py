@@ -10,9 +10,10 @@ st.set_page_config(page_title="Cardinal Virtues Dashboard", layout="wide")
 # Custom CSS for the "White Box" (Table) and "Mint Box" (Chart) theme
 st.markdown("""
 <style>
-    /* Main Background */
+    /* Main Background - Force light theme colors */
     .stApp {
         background-color: #F5F7F8;
+        color: #333333; /* Default text color */
     }
     
     /* Import Section Style */
@@ -28,6 +29,13 @@ st.markdown("""
         max-width: 800px;
         margin: auto;
         text-align: center;
+        /* Force dark text inside this white box */
+        color: #2c3e50 !important;
+    }
+    
+    /* Force headers/text inside import container to be dark */
+    .import-container h1, .import-container p, .import-container div {
+        color: #2c3e50 !important;
     }
     
     /* 
@@ -42,6 +50,8 @@ st.markdown("""
         border-radius: 12px;
         box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         border: 1px solid #EAEAEA;
+        /* Force Text Color */
+        color: #333333 !important;
     }
 
     /* Mint Box Column */
@@ -51,6 +61,13 @@ st.markdown("""
         border-radius: 12px;
         box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         border: 1px solid #B2EBF2;
+        /* Force Text Color */
+        color: #006064 !important;
+    }
+    
+    /* Force standard headers to be dark everywhere */
+    h1, h2, h3, p, label, .stMarkdown, div[data-testid="stMarkdownContainer"] {
+        color: #333333 !important;
     }
     
     /* Markers (Hidden) */
@@ -58,16 +75,10 @@ st.markdown("""
         display: none;
     }
     
-    /* Headers */
-    h1, h2, h3 {
-        font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-        color: #333;
-    }
-    
     /* Helper text */
     .sub-text {
         font-size: 0.9em;
-        color: #666;
+        color: #666 !important;
     }
 </style>
 """, unsafe_allow_html=True)
