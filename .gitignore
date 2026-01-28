@@ -10,7 +10,8 @@ ENV/
 # Data Files (Keep Private!)
 *.xlsx
 *.csv
-*.txt
+*output.txt
+debug_*.txt
 
 # IDE settings
 .vscode/
