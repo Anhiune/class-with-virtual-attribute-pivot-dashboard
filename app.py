@@ -299,6 +299,19 @@ if st.session_state.df is None:
                         st.rerun()
                 except Exception as e:
                     st.error(f"Error processing file: {e}")
+        
+        # Mini Debug Section for troubleshooting deployment
+        with st.expander("🔧 Deployment Debug Info", expanded=False):
+            import sys
+            import importlib
+            st.write(f"Python Version: {sys.version}")
+            try:
+                importlib.import_module("openpyxl")
+                st.success("✅ openpyxl detected")
+            except ImportError:
+                st.error("❌ openpyxl NOT detected")
+            
+            st.write("Current requirements.txt should include: openpyxl, streamlit, pandas, altair, numpy, xlsxwriter")
 
 else:
     # --- DASHBOARD STATE ---
