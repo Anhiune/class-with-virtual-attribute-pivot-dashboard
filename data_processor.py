@@ -147,7 +147,7 @@ def parse_terms(min_year=2025, max_year=2027):
 
 def process_file(uploaded_file):
     # Load
-    df = pd.read_excel(uploaded_file)
+    df = pd.read_excel(uploaded_file, engine='openpyxl')
     
     # Rename columns to standard keys
     # Map based on keyword search
